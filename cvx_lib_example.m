@@ -13,7 +13,7 @@ Y = Y(1:100);
 %% Find Results with the Built-in SVM as Baseline
 D = fitcsvm(X,Y);
 accuracy_baseline = mean(predict(D,X_test)==Y_test);
-%%
+%% Train CVX-SVM
 model = cvx_svm_init();
 model = cvx_svm_train(X,Y,model);
 score = cvx_svm_predict(X_test,model,Y_test);

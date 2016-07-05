@@ -17,12 +17,13 @@ cvx_begin
         svm_beta <= model.C;
         Y'*(svm_beta) == 0;
 cvx_end
-
-model.X = X;
-model.Y = Y;
+svm_beta(svm_beta<10^-5)=0;
+model.X = X(svm_beta>0,:);
+model.Y = Y(svm_beta>0);
+svm_beta = svm_beta(svm_beta>0);
 model.svm_beta = svm_beta;
-model.svm_bias = mean(Y-K*(model.svm_beta.*Y));
-model.training_accuracy = mean((double(K*(model.svm_beta.*Y)-model.svm_bias>0)*2-1)==Y);
+K = cvx_svm_kernel(X,model.X,model);
+model.svm_bias = mean(Y-K*(model.svm_beta.*model.Y));
+model.training_accuracy = mean((double(K*(model.svm_beta.*model.Y)-model.svm_bias>0)*2-1)==Y);
 
 end
-
