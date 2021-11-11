@@ -4,7 +4,7 @@ addpath('cvx_svm');
 %% Create a Basic Problem:
 X = randn(5000,2);
 noise_level = 0.1;
-Y = double((X(:,1)+noise_level*randn(5000,1)>X(:,2)))*2-1;
+Y = double((X(:,1).^2+X(:,2).^2>1.00))*2-1;
 X = zscore(X);
 
 X_test = X(1001:end,:);
